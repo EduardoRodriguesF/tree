@@ -1,15 +1,15 @@
-pub struct TreeNode<T> {
+pub struct Node<T> {
     pub value: T,
-    nodes: Vec<TreeNode<T>>,
+    nodes: Vec<Node<T>>,
 }
 
-impl<T> TreeNode<T> {
+impl<T> Node<T> {
     pub fn new(value: T) -> Self {
-        TreeNode { value, nodes: Vec::new() }
+        Node { value, nodes: Vec::new() }
     }
 
     pub fn add_node(&mut self, value: T) {
-        self.nodes.push(TreeNode::new(value));
+        self.nodes.push(Node::new(value));
     }
 }
 
@@ -19,14 +19,14 @@ mod tests {
 
     #[test]
     fn creates_tree() {
-        let tree = TreeNode::new(10);
+        let tree = Node::new(10);
 
         assert_eq!(tree.value, 10);
     }
 
     #[test]
     fn tree_add_nodes() {
-        let mut tree = TreeNode::new(2);
+        let mut tree = Node::new(10);
 
         tree.add_node(5);
         tree.add_node(4);
