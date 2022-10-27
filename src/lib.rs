@@ -56,4 +56,15 @@ mod tests {
         assert_eq!(found.value, 5);
         assert_eq!(found.nodes.len(), 0);
     }
+
+    #[test]
+    #[should_panic]
+    fn tree_finds_none() {
+        let mut tree = Node::new(10);
+
+        tree.add_node(5);
+        tree.add_node(4);
+
+        tree.find_node(1).expect("No node with this value found!");
+    }
 }
