@@ -3,13 +3,23 @@ pub struct Node<T> {
     nodes: Vec<Node<T>>,
 }
 
-impl<T> Node<T> {
+impl<T> Node<T> where T : PartialEq {
     pub fn new(value: T) -> Self {
         Node { value, nodes: Vec::new() }
     }
 
     pub fn add_node(&mut self, value: T) {
         self.nodes.push(Node::new(value));
+    }
+
+    pub fn find_node(&self, value: T) -> Option<&Node<T>> {
+        for node in self.nodes.iter() {
+            if node.value == value {
+                return Some(node);
+            }
+        }
+
+        None
     }
 }
 
@@ -32,5 +42,18 @@ mod tests {
         tree.add_node(4);
 
         assert_eq!(tree.nodes.len(), 2)
+    }
+
+    #[test]
+    fn tree_finds_nodes() {
+        let mut tree = Node::new(10);
+
+        tree.add_node(5);
+        tree.add_node(4);
+
+        let found = tree.find_node(5).unwrap();
+
+        assert_eq!(found.value, 5);
+        assert_eq!(found.nodes.len(), 0);
     }
 }
