@@ -3,7 +3,7 @@ pub struct Node<T> {
     nodes: Vec<Node<T>>,
 }
 
-impl<T> Node<T> where T : PartialEq {
+impl<T> Node<T> {
     pub fn new(value: T) -> Self {
         Node { value, nodes: Vec::new() }
     }
