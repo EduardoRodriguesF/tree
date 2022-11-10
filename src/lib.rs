@@ -12,9 +12,10 @@ impl<T> Node<T> where T : PartialEq {
         self.nodes.push(node);
     }
 
-    pub fn find_node(&self, value: T) -> Option<&Node<T>> {
+    pub fn find_node<F>(&self, f: F) -> Option<&Node<T>>
+        where F: Fn(&Node<T>) -> bool {
         for node in self.nodes.iter() {
-            if node.value == value {
+            if f(node) {
                 return Some(node);
             }
         }
@@ -51,7 +52,7 @@ mod tests {
         tree.push(Node::new(5));
         tree.push(Node::new(4));
 
-        let found = tree.find_node(5).unwrap();
+        let found = tree.find_node(|node| node.value == 5).unwrap();
 
         assert_eq!(found.value, 5);
         assert_eq!(found.nodes.len(), 0);
@@ -65,7 +66,7 @@ mod tests {
         tree.push(Node::new(5));
         tree.push(Node::new(4));
 
-        tree.find_node(1).expect("No node with this value found!");
+        tree.find_node(|node| node.value == 1).expect("No node with this value found!");
     }
 
     #[test]
@@ -78,7 +79,10 @@ mod tests {
         node_level_1.push(node_level_2);
         main_tree.push(node_level_1);
 
-        let found = main_tree.find_node(3).unwrap().find_node(2);
+        let found = main_tree
+            .find_node(|node| node.value == 3)
+            .unwrap()
+            .find_node(|node| node.value == 2);
 
         assert_eq!(found.unwrap().value, 2);
     }
