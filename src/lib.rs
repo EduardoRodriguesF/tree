@@ -34,6 +34,11 @@ impl<T> Node<T> where T : PartialEq {
 mod tests {
     use super::*;
 
+    struct Line {
+        speaker: String,
+        text: String
+    }
+
     #[test]
     fn creates_tree() {
         let tree = Node::new(10);
@@ -104,5 +109,28 @@ mod tests {
             .find(|node| node.value == 2);
 
         assert_eq!(found.unwrap().value, 2);
+    }
+
+    #[test]
+    fn node_handles_struct() {
+        let first_line = Line {
+            speaker: String::from("Citizen"),
+            text: String::from("Welcome!!")
+        };
+
+        let sub_line = Line {
+            speaker: String::from("You"),
+            text: String::from("Thanks for having me!")
+        };
+
+        let mut node = Node::new(first_line);
+        let sub_node = Node::new(sub_line);
+
+        node.push(sub_node);
+
+        let matching = node.find(|n| n.value.speaker == "You").unwrap();
+
+        assert_eq!(matching.value.speaker, "You");
+        assert_eq!(matching.value.text, "Thanks for having me!");
     }
 }
