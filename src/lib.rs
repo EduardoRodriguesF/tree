@@ -24,6 +24,12 @@ impl<T> Node<T> {
     }
 }
 
+impl<T> Node<T> where T : PartialEq {
+    pub fn find_by_value(&self, value: T) -> Option<&Node<T>> {
+        return self.find(|node| node.value == value)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -53,6 +59,19 @@ mod tests {
         tree.push(Node::new(4));
 
         let found = tree.find(|node| node.value == 5).unwrap();
+
+        assert_eq!(found.value, 5);
+        assert_eq!(found.nodes.len(), 0);
+    }
+
+    #[test]
+    fn tree_finds_by_value() {
+        let mut tree = Node::new(10);
+
+        tree.push(Node::new(5));
+        tree.push(Node::new(4));
+
+        let found = tree.find_by_value(5).unwrap();
 
         assert_eq!(found.value, 5);
         assert_eq!(found.nodes.len(), 0);
