@@ -12,7 +12,7 @@ impl<T> Node<T> {
         self.nodes.push(node);
     }
 
-    pub fn find_node<F>(&self, f: F) -> Option<&Node<T>>
+    pub fn find<F>(&self, f: F) -> Option<&Node<T>>
         where F: Fn(&Node<T>) -> bool {
         for node in self.nodes.iter() {
             if f(node) {
@@ -52,7 +52,7 @@ mod tests {
         tree.push(Node::new(5));
         tree.push(Node::new(4));
 
-        let found = tree.find_node(|node| node.value == 5).unwrap();
+        let found = tree.find(|node| node.value == 5).unwrap();
 
         assert_eq!(found.value, 5);
         assert_eq!(found.nodes.len(), 0);
@@ -66,7 +66,7 @@ mod tests {
         tree.push(Node::new(5));
         tree.push(Node::new(4));
 
-        tree.find_node(|node| node.value == 1).expect("No node with this value found!");
+        tree.find(|node| node.value == 1).expect("No node with this value found!");
     }
 
     #[test]
@@ -80,9 +80,9 @@ mod tests {
         main_tree.push(node_level_1);
 
         let found = main_tree
-            .find_node(|node| node.value == 3)
+            .find(|node| node.value == 3)
             .unwrap()
-            .find_node(|node| node.value == 2);
+            .find(|node| node.value == 2);
 
         assert_eq!(found.unwrap().value, 2);
     }
