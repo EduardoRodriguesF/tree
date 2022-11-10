@@ -67,4 +67,19 @@ mod tests {
 
         tree.find_node(1).expect("No node with this value found!");
     }
+
+    #[test]
+    fn tree_multi_level_node() {
+        let mut main_tree = Node::new(10);
+
+        let mut node_level_1 = Node::new(3);
+        let node_level_2 = Node::new(2);
+
+        node_level_1.add_node(node_level_2);
+        main_tree.add_node(node_level_1);
+
+        let found = main_tree.find_node(3).unwrap().find_node(2);
+
+        assert_eq!(found.unwrap().value, 2);
+    }
 }
