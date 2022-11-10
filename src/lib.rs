@@ -8,8 +8,8 @@ impl<T> Node<T> where T : PartialEq {
         Node { value, nodes: Vec::new() }
     }
 
-    pub fn add_node(&mut self, value: T) {
-        self.nodes.push(Node::new(value));
+    pub fn add_node(&mut self, node: Node<T>) {
+        self.nodes.push(node);
     }
 
     pub fn find_node(&self, value: T) -> Option<&Node<T>> {
@@ -38,8 +38,8 @@ mod tests {
     fn tree_add_nodes() {
         let mut tree = Node::new(10);
 
-        tree.add_node(5);
-        tree.add_node(4);
+        tree.add_node(Node::new(5));
+        tree.add_node(Node::new(4));
 
         assert_eq!(tree.nodes.len(), 2)
     }
@@ -48,8 +48,8 @@ mod tests {
     fn tree_finds_nodes() {
         let mut tree = Node::new(10);
 
-        tree.add_node(5);
-        tree.add_node(4);
+        tree.add_node(Node::new(5));
+        tree.add_node(Node::new(4));
 
         let found = tree.find_node(5).unwrap();
 
@@ -62,8 +62,8 @@ mod tests {
     fn tree_finds_none() {
         let mut tree = Node::new(10);
 
-        tree.add_node(5);
-        tree.add_node(4);
+        tree.add_node(Node::new(5));
+        tree.add_node(Node::new(4));
 
         tree.find_node(1).expect("No node with this value found!");
     }
