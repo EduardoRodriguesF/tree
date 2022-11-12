@@ -26,7 +26,7 @@ impl<T> Node<T> {
 
 impl<T> Node<T> where T : PartialEq {
     pub fn find_by_value(&self, value: T) -> Option<&Node<T>> {
-        return self.find(|node| node.value == value)
+        self.find(|node| node.value == value)
     }
 }
 
