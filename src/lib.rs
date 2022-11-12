@@ -19,13 +19,7 @@ impl<T> Node<T> {
     where
         F: Fn(&Node<T>) -> bool,
     {
-        for node in self.nodes.iter() {
-            if f(node) {
-                return Some(node);
-            }
-        }
-
-        None
+        self.nodes.iter().find(|&node| f(node))
     }
 }
 
