@@ -5,7 +5,10 @@ pub struct Node<T> {
 
 impl<T> Node<T> {
     pub fn new(value: T) -> Self {
-        Node { value, nodes: Vec::new() }
+        Node {
+            value,
+            nodes: Vec::new(),
+        }
     }
 
     pub fn push(&mut self, node: Node<T>) {
@@ -13,7 +16,9 @@ impl<T> Node<T> {
     }
 
     pub fn find<F>(&self, f: F) -> Option<&Node<T>>
-        where F: Fn(&Node<T>) -> bool {
+    where
+        F: Fn(&Node<T>) -> bool,
+    {
         for node in self.nodes.iter() {
             if f(node) {
                 return Some(node);
@@ -24,7 +29,10 @@ impl<T> Node<T> {
     }
 }
 
-impl<T> Node<T> where T : PartialEq {
+impl<T> Node<T>
+where
+    T: PartialEq,
+{
     pub fn find_by_value(&self, value: T) -> Option<&Node<T>> {
         self.find(|node| node.value == value)
     }
@@ -36,7 +44,7 @@ mod tests {
 
     struct Line {
         speaker: String,
-        text: String
+        text: String,
     }
 
     #[test]
@@ -90,7 +98,8 @@ mod tests {
         tree.push(Node::new(5));
         tree.push(Node::new(4));
 
-        tree.find(|node| node.value == 1).expect("No node with this value found!");
+        tree.find(|node| node.value == 1)
+            .expect("No node with this value found!");
     }
 
     #[test]
@@ -115,12 +124,12 @@ mod tests {
     fn node_handles_struct() {
         let first_line = Line {
             speaker: String::from("Citizen"),
-            text: String::from("Welcome!!")
+            text: String::from("Welcome!!"),
         };
 
         let sub_line = Line {
             speaker: String::from("You"),
-            text: String::from("Thanks for having me!")
+            text: String::from("Thanks for having me!"),
         };
 
         let mut node = Node::new(first_line);
